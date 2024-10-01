@@ -19,7 +19,7 @@ export default function Third() {
 
     return (
         <div style={{
-            width: '100vw', height: '60vw', display: 'flex',
+            width: '100vw', height: '60vw', minHeight:'260pt', display: 'flex',
             justifyContent: 'center', alignItems: 'center',
             flexDirection: 'row',
         }}>
