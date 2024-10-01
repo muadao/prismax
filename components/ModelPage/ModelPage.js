@@ -22,8 +22,8 @@ export default function ModelPage() {
     const width = container.clientWidth,
       height = container.clientHeight
     renderer.setSize(width, height)
-    const camera = new THREE.PerspectiveCamera(75,width / height, 0.1, 1000);
-    camera.position.z = 10;
+    const camera = new THREE.PerspectiveCamera(70, width / height, 0.5, 1000);
+    camera.position.set(0, 0.3, 6);
 
     //on window resize
     window.addEventListener('resize', () => {
@@ -34,25 +34,13 @@ export default function ModelPage() {
       camera.updateProjectionMatrix()
     })
 
-
-    //create a plane and use the video as texture
-    const video = document.createElement('video')
-    video.src = videoTextureURL
-    video.crossOrigin = 'anonymous'
-    video.loop = true
-    video.muted = true
-    video.play()
-    const videoTexture = new THREE.VideoTexture(video)
-    videoTexture.flipY = false
-    videoTexture.encoding = THREE.sRGBEncoding
-    const plane = new THREE.PlaneGeometry(20, 10)
-    const material = new THREE.MeshBasicMaterial({ map: videoTexture })
-    const mesh = new THREE.Mesh(plane, material)
-    scene.add(mesh)
-    
-    const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(10, 10, 10);
+    const light = new THREE.DirectionalLight(0xffffff, 5);
+    light.position.set(0, 10, 0);
     scene.add(light);
+
+    //ambient light
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
+    scene.add(ambientLight);
 
     const loader = new GLTFLoader()
 
@@ -119,11 +107,31 @@ export default function ModelPage() {
   return (
     <>
       <div style={{ width: '100%', height: '100vh' }}>
+        <video autoPlay muted loop style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover' }}>
+          <source src={videoTextureURL} type='video/mp4' />
+        </video>
         <div
           id='three'
-          style={{ backgroundColor: 'transparent', width: '100%', height: '100%' }}
+          style={{ backgroundColor: 'transparent', width: '100%', height: '100%', position: 'absolute' }}
         ></div>
-      </div>
+        <div style={{ position: 'absolute', margin: '40pt' }}>
+          <h1>PrisaX PoV</h1>
+        </div>
+        <div style={{
+          position: 'relative', width: '100%', textAlign: 'center', top: '50%', transform: 'translateY(-50%)', zIndex: 1,
+          display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '100pt',
+          fontSize: '20pt', lineHeight: '28pt'
+        }}>
+          <div>
+            <p>First Person</p>
+            <p>View Data</p>
+          </div>
+          <div>
+            <p>High Quality</p>
+            <p>Data for Gen AI</p>
+          </div>
+        </div>
+      </div >
     </>
   )
 }
