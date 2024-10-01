@@ -10,9 +10,16 @@ const apps = [
 ];
 
 export default function Third() {
+
+    const [isMobile, setIsMobile] = React.useState(false);
+
+    React.useEffect(()=>{
+        setIsMobile(window.innerWidth < 768);
+    }, []);
+
     return (
         <div style={{
-            width: '100%', height: '100vh', display: 'flex',
+            width: '100vw', height: '60vw', display: 'flex',
             justifyContent: 'center', alignItems: 'center',
             flexDirection: 'row',
         }}>
@@ -21,21 +28,21 @@ export default function Third() {
                 display: 'flex', flexDirection: 'column', justifyContent: 'space-around'
             }}>
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                    <h1 style={{ fontSize: '50pt', maxWidth: '400pt' }}
-                    >Let's Stary Connected</h1>
+                    <h1 style={{ fontSize: '6vw', maxWidth: '40vw' }}
+                    >Let's Stay Connected</h1>
                 </div>
                 <br />
                 <br />
                 <br />
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '40pt' }}>
+                <div style={{ display: 'flex', flexDirection: (isMobile ? 'column' : 'row'), justifyContent: 'center', gap: '16pt' }}>
                     {apps.map((item, index) => {
                         return (
                             <div
+                                key={`app_${index}`}
                                 className="sociallink"
                             >
                                 <div
                                     onClick={() => item.url && window.open(item.url, "_blank")}
-                                    key={`app_${index}`}
                                     style={{
                                         display: 'flex', flexDirection: 'row', justifyContent: 'center',
                                         gap: '8pt',

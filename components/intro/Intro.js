@@ -85,12 +85,13 @@ console.log('randString', randString)
           id='three1'
           style={{ backgroundColor: 'transparent', width: '100%', height: '70%', position: 'absolute' }}
         ></div>
-        <div style={{ position: 'absolute', bottom: '40pt', margin: '0pt 40pt', zIndex: 1 }}>
+        <div style={{ position: 'absolute', bottom: '160pt', margin: '0pt 40pt', zIndex: 1 }}>
           <AnimText text={text} />
         </div>
         <div style={{
           display: playing ? 'none' : 'block',
-          position: 'absolute', bottom: '60pt', width: '100%', height: '20pt', backgroundColor: 'black', color: 'white', textAlign: 'center'
+          position: 'absolute', bottom: '60pt', width: '100%', height: '20pt', backgroundColor: 'black', color: 'white', textAlign: 'center',
+          zIndex: 2
         }}>
           <button onClick={() => {
             setPlaying(true)

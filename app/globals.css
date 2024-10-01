@@ -92,9 +92,9 @@ button:hover {
   font-family: "Montserrat", sans-serif;
   overflow: hidden;
   font-size: 2rem;
-  font-weight: 700;
   line-height: 1.2;
   color: transparent;
+  font-size: 16pt;
 }
 
 .sociallinkarrow {

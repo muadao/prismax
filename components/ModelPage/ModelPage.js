@@ -106,21 +106,23 @@ export default function ModelPage() {
 
   return (
     <>
-      <div style={{ width: '100%', height: '100vh' }}>
-        <video autoPlay muted loop style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover' }}>
+      <div style={{ width: '100vw', height: '60vw' }}>
+        <video autoPlay muted loop style={{ position: 'absolute', width: '100vw', height: '60vw' , objectFit: 'cover' }}>
           <source src={videoTextureURL} type='video/mp4' />
         </video>
         <div
           id='three'
-          style={{ backgroundColor: 'transparent', width: '100%', height: '100%', position: 'absolute' }}
+          style={{ backgroundColor: 'transparent',  width: '100vw', height: '60vw' , position: 'absolute' }}
         ></div>
-        <div style={{ position: 'absolute', margin: '40pt' }}>
-          <h1>PrisaX PoV</h1>
+        <div style={{ position: 'absolute', margin: '6vw' }}>
+          <h1
+          style={{fontSize: '4vw'}}
+          >PrisaX PoV</h1>
         </div>
         <div style={{
-          position: 'relative', width: '100%', textAlign: 'center', top: '50%', transform: 'translateY(-50%)', zIndex: 1,
-          display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '100pt',
-          fontSize: '20pt', lineHeight: '28pt'
+          position: 'relative', width: '100vw', textAlign: 'center', top: '50%', transform: 'translateY(-50%)', zIndex: 1,
+          display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '5%',
+          fontSize: '2vw', lineHeight: '3vw',
         }}>
           <div>
             <p>First Person</p>
