@@ -1,0 +1,81 @@
+.navbar {
+    background-color: transparent;
+    width: 100vw;
+    height: 60pt;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logoimg {
+    margin: 10pt;
+}
+
+.links {
+    display: flex;
+    align-items: center;
+}
+
+.link {
+    margin: 0 1rem;
+    text-decoration: none;
+    color: grey;
+    font-size: 14pt;
+}
+
+.link:hover {
+    color: white;
+    transform: scale(1.05);
+    transition: 0.3s;
+}
+
+.navbar_right {
+    display: flex;
+    align-items: center;
+}
+
+.navbar_right_button {
+    background-color: rgba(255, 255, 255, 4%);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 5pt;
+    margin: 0 6px;
+    cursor: pointer;
+    display: flex;
+    max-height: 50px;
+}
+
+.navbar_right_button:hover {
+    background-color: rgba(255, 255, 255, 10%);
+}
+
+.navbar_right_button p {
+    margin: 2pt;
+}
+
+.navbar_right_button_white {
+    background-color: white;
+    color: black;
+    padding: 0.5rem 1rem;
+    border-radius: 5pt;
+    margin: 0 6px;
+    cursor: pointer;
+    display: flex;
+    max-height: 50px;
+    min-width: 120pt;
+}
+
+.navbar_right_button_white:hover {
+    background-color: rgb(210, 210, 210);
+}
+
+.navbar_right_button_white p {
+    margin: 2pt;
+}
