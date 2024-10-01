@@ -31,29 +31,32 @@ export default function Third() {
                     {apps.map((item, index) => {
                         return (
                             <div
-                                onClick={() => item.url && window.open(item.url, "_blank")}
-                                key={`app_${index}`}
                                 className="sociallink"
-                                style={{
-                                    display: 'flex', flexDirection: 'row', justifyContent: 'center',
-                                    gap: '6pt',
-                                    fontSize: '14pt',
-                                    height: '16pt',
-                                    cursor: 'pointer',
-                                    color: 'rgba(255, 255, 255, 0.7)',
-                                }}
                             >
-                                <Icon
-                                    name={item.name}
-                                    height={20}
-                                    width={20}
-                                />
-                                {item.name}
-                                <div>
+                                <div
+                                    onClick={() => item.url && window.open(item.url, "_blank")}
+                                    key={`app_${index}`}
+                                    style={{
+                                        display: 'flex', flexDirection: 'row', justifyContent: 'center',
+                                        gap: '8pt',
+                                        fontSize: '16pt',
+                                        height: '16pt',
+                                        cursor: 'pointer',
+                                        color: 'rgba(255, 255, 255, 0.7)',
+                                    }}
+                                >
                                     <Icon
-                                        name={"IconArrow"}
-                                        className="sociallinkarrow"
+                                        name={item.name}
+                                        height={20}
+                                        width={20}
                                     />
+                                    {item.name}
+                                    <div>
+                                        <Icon
+                                            name={"IconArrow"}
+                                            className="sociallinkarrow"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         );

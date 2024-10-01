@@ -22,6 +22,7 @@ export default function RootLayout() {
         style={{ fontSize: '14pt', color: 'rgba(255, 255, 255, 0.7)' }}
         >A Base Layer for Real-World Multimodal GenAI Apps</p>
       </div>
+      <br />
     </>
 
   )
