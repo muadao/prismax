@@ -5,8 +5,9 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js'
 
-const gltfUrl = 'model.gltf'
+const gltfUrl = 'model.glb'
 let currentgltf = null
+const videoTextureURL = 'pol.mp4'
 
 export default function ModelPage() {
   function StartThree() {
@@ -21,9 +22,8 @@ export default function ModelPage() {
     const width = container.clientWidth,
       height = container.clientHeight
     renderer.setSize(width, height)
-    const camera = new THREE.PerspectiveCamera(70, width / height, 0.05, 100)
-    camera.position.set(0,2,10)
-    camera.lookAt(0, 0, 0)
+    const camera = new THREE.PerspectiveCamera(75,width / height, 0.1, 1000);
+    camera.position.z = 10;
 
     //on window resize
     window.addEventListener('resize', () => {
@@ -34,30 +34,25 @@ export default function ModelPage() {
       camera.updateProjectionMatrix()
     })
 
-    const pmremGenerator = new THREE.PMREMGenerator(renderer)
-    pmremGenerator.compileEquirectangularShader()
-    const hdriLoader = new RGBELoader()
-    let hdri = null
-    hdriLoader.load('/hdri.hdr', function (texture) {
-      hdri = pmremGenerator.fromEquirectangular(texture).texture
-      texture.dispose()
-      scene.environment = hdri
-      //scene.background = hdri
 
-      pmremGenerator.dispose()
-
-      //render
-      renderer.toneMapping = THREE.ACESFilmicToneMapping
-      renderer.toneMappingExposure = 1
-    })
-
-
-    const light = new THREE.AmbientLight(0x404040, 0.9);
+    //create a plane and use the video as texture
+    const video = document.createElement('video')
+    video.src = videoTextureURL
+    video.crossOrigin = 'anonymous'
+    video.loop = true
+    video.muted = true
+    video.play()
+    const videoTexture = new THREE.VideoTexture(video)
+    videoTexture.flipY = false
+    videoTexture.encoding = THREE.sRGBEncoding
+    const plane = new THREE.PlaneGeometry(20, 10)
+    const material = new THREE.MeshBasicMaterial({ map: videoTexture })
+    const mesh = new THREE.Mesh(plane, material)
+    scene.add(mesh)
+    
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(10, 10, 10);
     scene.add(light);
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.7)
-    dirLight.position.set(5, 5, 5)
-    scene.add(dirLight)
-
 
     const loader = new GLTFLoader()
 
@@ -82,6 +77,9 @@ export default function ModelPage() {
       console.log(progress)
     }).then((gltf) => {
       currentgltf = gltf
+
+      currentgltf.scene.rotation.x = 0
+      currentgltf.scene.rotation.y = Math.PI / 2
       scene.add(gltf.scene)
     }).catch((error) => {
       console.error(error)
