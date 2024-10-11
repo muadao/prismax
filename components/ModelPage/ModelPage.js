@@ -107,7 +107,7 @@ export default function ModelPage() {
   return (
     <>
       <div style={{ width: '100vw', height: '60vw' }}>
-        <video autoPlay muted loop style={{ position: 'absolute', width: '100vw', height: '60vw' , objectFit: 'cover' }}>
+        <video autoPlay playsInline muted loop style={{ position: 'absolute', width: '100vw', height: '60vw' , objectFit: 'cover' }}>
           <source src={videoTextureURL} type='video/mp4' />
         </video>
         <div
