@@ -3,7 +3,7 @@
 import React from "react";
 import AnimText from "../animtext/AnimText";
 import * as THREE from 'three';
-import {createNoise3D} from 'simplex-noise';
+import { createNoise3D } from 'simplex-noise';
 import * as TWEEN from '@tweenjs/tween.js'
 
 //region: configs
@@ -101,7 +101,7 @@ export default function ModelPage() {
             video.src = url
             video.crossOrigin = 'anonymous'
             video.loop = true
-            video.muted = false
+            video.muted = true
             video.playsInline = true
             videoElements.push(video)
 
@@ -113,7 +113,7 @@ export default function ModelPage() {
         })
 
         const videoGeometry = new THREE.PlaneGeometry(6, 6)
-        videoMaterial = new THREE.MeshBasicMaterial({map: videoTextures[0]})
+        videoMaterial = new THREE.MeshBasicMaterial({ map: videoTextures[0] })
         const videoPlane = new THREE.Mesh(videoGeometry, videoMaterial)
         videoScene.add(videoPlane)
     }
@@ -121,8 +121,8 @@ export default function ModelPage() {
     function InitVidParticles() {
         const psMat = new THREE.ShaderMaterial({
             uniforms: {
-                videoTexture: {value: renderTarget.texture},
-                spreadProgress: {value: 0}
+                videoTexture: { value: renderTarget.texture },
+                spreadProgress: { value: 0 }
             }, vertexShader: `
     attribute float size;
     varying vec4 vScreenPosition;
@@ -182,13 +182,13 @@ export default function ModelPage() {
         const particles = new THREE.Points(psGeo, psMat)
         particleScene.add(particles)
 
-        vidParticle = {psMat, psGeo, vertices, sizes, originalVertices, particles}
+        vidParticle = { psMat, psGeo, vertices, sizes, originalVertices, particles }
     }
 
     function InitNonVidParticles(timestamp) {
         time = timestamp / 1000
         const psMat = new THREE.ShaderMaterial({
-            uniforms: {prog: {value: 0}},
+            uniforms: { prog: { value: 0 } },
             vertexShader: `
     attribute float size;
     attribute float a;
@@ -261,15 +261,15 @@ export default function ModelPage() {
         const particles = new THREE.Points(psGeo, psMat)
         particleScene.add(particles)
 
-        bgParticle = {psMat, psGeo, originalVertices, sizes, particles}
+        bgParticle = { psMat, psGeo, originalVertices, sizes, particles }
     }
 
     function updateVidParticles(timestamp) {
         time = timestamp / 1000
-        const {psGeo, originalVertices} = vidParticle
+        const { psGeo, originalVertices } = vidParticle
         const vertices = psGeo.attributes.position.array
         const prog = vidParticleConfig.progress
-        const {sampleScalar, timeScalar, amplitude} = vidParticleConfig
+        const { sampleScalar, timeScalar, amplitude } = vidParticleConfig
         for (let i = 0; i < vertices.length; i += 3) {
             const x = originalVertices[i] * (vidParticleConfig.spreadBase + prog * vidParticleConfig.spreadAlter)
             const y = originalVertices[i + 1] * (vidParticleConfig.spreadBase + prog * vidParticleConfig.spreadAlter) + (-prog * prog + 1.6 * prog - 0.6)
@@ -292,8 +292,8 @@ export default function ModelPage() {
 
     function updateNonVidParticles(timestamp) {
         const t = timestamp / 1000
-        const {psGeo, originalVertices} = bgParticle
-        const {sampleScalar, timeScalar, amplitude} = bgParticleConfig
+        const { psGeo, originalVertices } = bgParticle
+        const { sampleScalar, timeScalar, amplitude } = bgParticleConfig
         const vertices = psGeo.attributes.position.array
         const prog = bgParticleConfig.progress
         // const z = -17 * prog + 10
@@ -343,29 +343,49 @@ export default function ModelPage() {
 
     function StartBgTween() {
         const tween = new TWEEN.Tween(bgParticleConfig, group)
-            .to({progress: 1}, 5000)
+            .to({ progress: 1 }, 5000)
             .onUpdate((p) => {
                 bgParticle.psMat.uniforms.prog.value = p.progress
             })
             .start()
     }
 
+    const texts = [
+        "line 1",
+        "line 2",
+        "line 3"
+    ]
+
+    let last_text = ''
     function StartVidTween() {
         const emergeTweens = []
         const dismissTweens = []
 
         for (let i = 0; i < videoUrls.length; i++) {
+            const _i = i;
             const emerge = new TWEEN.Tween(vidParticleConfig, group)
-                .to({progress: 1}, 1500)
+                .to({ progress: 1 }, 1500)
                 .onUpdate((param) => {
                     vidParticle.psMat.uniforms.spreadProgress.value = param.progress
                     bgParticle.psMat.uniforms.prog.value = 1 - param.progress
                 })
                 .easing(TWEEN.Easing.Back.In)
+                .onStart(() => {
+                    //move video to start
+                    videoElements[_i].currentTime = 0
+                    videoElements[_i].play()
+
+                    if (last_text != texts[_i]) {
+                        setTimeout(() => {
+                            setText(texts[_i])
+                        }, 1000)
+                        last_text = texts[_i]
+                    }
+                })
             emergeTweens.push(emerge)
 
             const dismiss = new TWEEN.Tween(vidParticleConfig, group)
-                .to({progress: 0}, 1200)
+                .to({ progress: 0 }, 1200)
                 .delay(5000)
                 .onUpdate((param) => {
                     vidParticle.psMat.uniforms.spreadProgress.value = param.progress
@@ -381,6 +401,8 @@ export default function ModelPage() {
                     if (i === videoUrls.length - 1) {
                         // todo send out complete event
                         setCompleted(true)
+                        //change html overflow to visible
+                        document.documentElement.style.overflow = 'visible'
                     }
                 })
             dismissTweens.push(dismiss)
@@ -401,16 +423,10 @@ export default function ModelPage() {
         StartThree()
     }, [])
 
-    const [text, setText] = React.useState('This is a video texture')
+    const [text, setText] = React.useState('')
 
     async function play() {
         setButtonText('REPLAY')
-
-        setInterval(() => {
-            const randString = Math.random().toString(36) + '\n' + Math.random().toString(36)
-            console.log('randString', randString)
-            setText(randString);
-        }, 10000);
     }
 
     React.useEffect(() => {
@@ -420,13 +436,13 @@ export default function ModelPage() {
     }, [playing])
 
     return (<>
-        <div style={{width: '100%', height: 'calc(100vh - 60pt)'}}>
+        <div style={{ width: '100%', height: 'calc(100vh - 60pt)' }}>
             <div
                 id='three1'
-                style={{backgroundColor: 'transparent', width: '100%', height: '70%', position: 'absolute'}}
+                style={{ backgroundColor: 'transparent', width: '100%', height: '70%', position: 'absolute' }}
             ></div>
-            <div style={{position: 'absolute', bottom: '160pt', margin: '0pt 40pt', zIndex: 1}}>
-                <AnimText text={text}/>
+            <div style={{ position: 'absolute', bottom: '160pt', margin: '0pt 40pt', zIndex: 1 }}>
+                <AnimText text={text} />
             </div>
             <div style={{
                 display: playing ? 'none' : 'block',
@@ -440,8 +456,27 @@ export default function ModelPage() {
                 zIndex: 2
             }}>
                 <button onClick={() => {
+                    StartVidTween()
                     setPlaying(true)
                 }}>{buttonText}</button>
+            </div>
+
+            <div style={{
+                display: completed ? 'block' : 'none',
+                position: 'absolute',
+                bottom: '60pt',
+                width: '100%',
+                height: '20pt',
+                backgroundColor: 'black',
+                color: 'white',
+                textAlign: 'right',
+                zIndex: 2,
+                paddingRight: '40pt'
+            }}>
+                <button onClick={() => {
+                    //scroll window height animated
+                    window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
+                }}>Scroll Down</button>
             </div>
         </div>
     </>)
