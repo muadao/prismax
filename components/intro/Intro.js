@@ -356,7 +356,6 @@ export default function ModelPage() {
         "line 3"
     ]
 
-    let last_text = ''
     function StartVidTween() {
         const emergeTweens = []
         const dismissTweens = []
@@ -375,12 +374,9 @@ export default function ModelPage() {
                     videoElements[_i].currentTime = 0
                     videoElements[_i].play()
 
-                    if (last_text != texts[_i]) {
-                        setTimeout(() => {
-                            setText(texts[_i])
-                        }, 1000)
-                        last_text = texts[_i]
-                    }
+                    setTimeout(() => {
+                        setText(texts[_i])
+                    }, 1000)
                 })
             emergeTweens.push(emerge)
 
@@ -404,6 +400,8 @@ export default function ModelPage() {
                         //change html overflow to visible
                         document.documentElement.style.overflow = 'visible'
                     }
+                }).onStart(() => {
+                    setText('')
                 })
             dismissTweens.push(dismiss)
         }
