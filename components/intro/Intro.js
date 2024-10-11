@@ -351,9 +351,9 @@ export default function ModelPage() {
     }
 
     const texts = [
-        "line 1",
-        "line 2",
-        "line 3"
+        "High-quality data can only come from real people,\nand real human effort will always have true value.",
+        "PrismaX envisions a world where AI achieves human-level comprehension of the real world,\nrecognizing the invaluable role of human effort in this endeavor.",
+        "This is PrismaX,\nA Base Layer for Real-World Multimodal GenAI Apps"
     ]
 
     function StartVidTween() {
@@ -373,6 +373,7 @@ export default function ModelPage() {
                     //move video to start
                     videoElements[_i].currentTime = 0
                     videoElements[_i].play()
+                    setText('')
 
                     setTimeout(() => {
                         setText(texts[_i])
@@ -421,7 +422,7 @@ export default function ModelPage() {
         StartThree()
     }, [])
 
-    const [text, setText] = React.useState('')
+    const [text, setText] = React.useState('How Can We Help AI See the World?')
 
     async function play() {
         setButtonText('REPLAY')
