@@ -114,7 +114,9 @@ export default function ModelPage() {
           <source src={videoTextureURL} type='video/mp4' />
         </video>
         <Spline
-          style={{ backgroundColor: 'transparent', width: '100vw', height: '60vw', position: 'absolute' }}
+          style={{ backgroundColor: 'transparent', width: '100vw', height: '60vw', position: 'absolute',
+            marginTop: '160pt',marginLeft: '30pt'
+           }}
           scene="https://prod.spline.design/9KEU1wON2uHX2IuF/scene.splinecode"
         />
         <div style={{ position: 'absolute', margin: '6vw' }}>
