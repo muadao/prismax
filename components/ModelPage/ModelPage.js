@@ -117,7 +117,7 @@ export default function ModelPage() {
         <div style={{ position: 'absolute', margin: '6vw' }}>
           <h1
           style={{fontSize: '4vw'}}
-          >PrisaX PoV</h1>
+          >PrismaX PoV</h1>
         </div>
         <div style={{
           position: 'relative', width: '100vw', textAlign: 'center', top: '50%', transform: 'translateY(-50%)', zIndex: 1,

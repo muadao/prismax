@@ -42,6 +42,18 @@ span {
   color: white;
 }
 
+@keyframes frombottom {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 button {
   font-family: "Montserrat", sans-serif;
   color: white;
@@ -53,6 +65,8 @@ button {
   cursor: pointer;
   width: 120pt;
   height: 40pt;
+
+  animation: frombottom 2s cubic-bezier(0.77, 0, 0.175, 1) 0.3s;
 }
 
 button {
@@ -62,6 +76,38 @@ button {
 button:hover {
   border: 1px solid white;
 }
+
+
+@keyframes revealonly {
+  0% {
+    color: transparent;
+    transform: translate(0, 100%);
+  }
+
+  100% {
+    color: white;
+    transform: translate(0, 0);
+  }
+}
+
+.animspanonly {
+  display: inline-block;
+  animation: revealonly 0.5s cubic-bezier(0.77, 0, 0.175, 1) 0.3s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+  color: transparent;
+}
+
+.animponly {
+  font-family: "Montserrat", sans-serif;
+  overflow: hidden;
+  font-size: 2rem;
+  line-height: 1.2;
+  color: transparent;
+  font-size: 16pt;
+  white-space: pre-wrap;
+}
+
 
 @keyframes reveal {
   0% {
@@ -87,7 +133,7 @@ button:hover {
 
 .animspan {
   display: inline-block;
-  animation: reveal 5s cubic-bezier(0.77, 0, 0.175, 1) 0.5s;
+  animation: reveal 4s cubic-bezier(0.77, 0, 0.175, 1) 0.3s;
   animation-fill-mode: forwards;
   animation-iteration-count: 1;
   color: transparent;
@@ -100,6 +146,7 @@ button:hover {
   line-height: 1.2;
   color: transparent;
   font-size: 16pt;
+  white-space: pre-wrap;
 }
 
 .sociallinkarrow {

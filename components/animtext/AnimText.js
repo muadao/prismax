@@ -24,7 +24,7 @@ export default function AnimText({ text }) {
                         {chars.map((char, index) => (
                             <span className="animspan"
                                 key={Math.random()}
-                                style={{ animationDelay: `${index * 0.05}s` }}
+                                style={{ animationDelay: `${index * 0.02}s` }}
                             >
                                 {char === " " ? "\u00A0" : char}
                             </span>

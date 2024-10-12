@@ -90,7 +90,7 @@ export default function ModelPage() {
         particleScene = new THREE.Scene()
         videoScene = new THREE.Scene()
         camera = new THREE.PerspectiveCamera(75, width / height, 0.05, 1000)
-        camera.position.set(0, 0, 7)
+        camera.position.set(0, 0, 6.2)
         camera.lookAt(0, 0, 0)
         window.addEventListener('resize', OnResize)
     }
@@ -422,7 +422,7 @@ export default function ModelPage() {
         StartThree()
     }, [])
 
-    const [text, setText] = React.useState('How Can We Help AI See the World?')
+    const [text, setText] = React.useState('')
 
     async function play() {
         setButtonText('REPLAY')
@@ -440,13 +440,25 @@ export default function ModelPage() {
                 id='three1'
                 style={{ backgroundColor: 'transparent', width: '100%', height: '70%', position: 'absolute' }}
             ></div>
-            <div style={{ position: 'absolute', bottom: '160pt', margin: '0pt 40pt', zIndex: 1 }}>
+            <div style={{ position: 'absolute', bottom: '80pt', margin: '0pt 40pt', zIndex: 1 }}>
                 <AnimText text={text} />
+                <p className="animponly" style={{
+                    display: playing ? 'none' : 'block',
+                }}>
+                    {"How Can We Help AI See the World?".split("").map((char, index) => (
+                        <span className="animspanonly"
+                            key={Math.random()}
+                            style={{ animationDelay: `${index * 0.02}s` }}
+                        >
+                            {char === " " ? "\u00A0" : char}
+                        </span>
+                    ))}
+                </p>
             </div>
             <div style={{
                 display: playing ? 'none' : 'block',
                 position: 'absolute',
-                bottom: '60pt',
+                bottom: '40pt',
                 width: '100%',
                 height: '20pt',
                 backgroundColor: 'black',
@@ -463,7 +475,7 @@ export default function ModelPage() {
             <div style={{
                 display: completed ? 'block' : 'none',
                 position: 'absolute',
-                bottom: '60pt',
+                bottom: '40pt',
                 width: '100%',
                 height: '20pt',
                 backgroundColor: 'black',
