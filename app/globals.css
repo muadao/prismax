@@ -69,6 +69,7 @@ button {
   opacity: 0;
 
   animation: frombottom 2s cubic-bezier(0.77, 0, 0.175, 1) 0.3s;
+  animation-fill-mode: forwards;
 }
 
 button {
