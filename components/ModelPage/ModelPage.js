@@ -4,6 +4,7 @@ import React from "react";
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js'
+import Spline from "@splinetool/react-spline";
 
 const gltfUrl = 'model.glb'
 let currentgltf = null
@@ -79,6 +80,7 @@ export default function ModelPage() {
     }
   }
 
+  /*
   React.useEffect(() => {
     StartThree()
 
@@ -103,20 +105,21 @@ export default function ModelPage() {
       }
     })
   }, [])
+   */
 
   return (
     <>
       <div style={{ width: '100vw', height: '60vw' }}>
-        <video autoPlay playsInline muted loop style={{ position: 'absolute', width: '100vw', height: '60vw' , objectFit: 'cover' }}>
+        <video autoPlay playsInline muted loop style={{ position: 'absolute', width: '100vw', height: '60vw', objectFit: 'cover' }}>
           <source src={videoTextureURL} type='video/mp4' />
         </video>
-        <div
-          id='three'
-          style={{ backgroundColor: 'transparent',  width: '100vw', height: '60vw' , position: 'absolute' }}
-        ></div>
+        <Spline
+          style={{ backgroundColor: 'transparent', width: '100vw', height: '60vw', position: 'absolute' }}
+          scene="https://prod.spline.design/9KEU1wON2uHX2IuF/scene.splinecode"
+        />
         <div style={{ position: 'absolute', margin: '6vw' }}>
           <h1
-          style={{fontSize: '4vw'}}
+            style={{ fontSize: '4vw' }}
           >PrismaX PoV</h1>
         </div>
         <div style={{
