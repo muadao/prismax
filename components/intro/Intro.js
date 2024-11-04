@@ -392,9 +392,6 @@ export default function ModelPage() {
                 })
                 .easing(TWEEN.Easing.Back.In)
                 .onStart(() => {
-                    //move video to start
-                    videoElements[_i].currentTime = 0
-                    videoElements[_i].play()
                     setText('')
 
                     setTimeout(() => {
@@ -421,6 +418,9 @@ export default function ModelPage() {
                     const index = (i + 1) % videoUrls.length
                     videoMaterial.map = videoTextures[index]
                     videoElements[i].pause()
+                    videoElements[i].currentTime = 0
+                    
+                    videoElements[index].currentTime = 0
                     videoElements[index].play()
 
                     if (i === videoUrls.length - 1) {
