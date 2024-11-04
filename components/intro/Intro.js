@@ -48,7 +48,7 @@ let vidParticleConfig = {
 
 let bgParticle = null
 let bgParticleConfig = {
-    num: 600,
+    num: 400,
     progress: 0,
     sampleScalar: 300,
     timeScalar: 0.07,
@@ -230,13 +230,15 @@ export default function ModelPage() {
 
         for (let i = 0; i < bgParticleConfig.num; i++) {
             const angle = Math.random() * 2 * Math.PI
-            const radius = Math.sqrt(Math.random()) * spawnRadius * 0.92
+            let radius = Math.sqrt(Math.random()) * spawnRadius * 0.92
+            //move a little to edge
             const x = radius * Math.cos(angle)
             const y = radius * Math.sin(angle)
+            const z = radius * Math.sin(angle)
 
             originalVertices.push(x)
             originalVertices.push(y)
-            originalVertices.push(1)
+            originalVertices.push(z)
 
             sizes.push(particleSizeBase - 3 + Math.round(Math.random() * 2 * particleSizeAlter))
             const a = Math.random()
