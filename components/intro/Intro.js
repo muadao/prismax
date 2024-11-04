@@ -48,9 +48,9 @@ let vidParticleConfig = {
 
 let bgParticle = null
 let bgParticleConfig = {
-    num: 300,
+    num: 600,
     progress: 0,
-    sampleScalar: 1000,
+    sampleScalar: 300,
     timeScalar: 0.07,
     amplitude: 0.1,
 }
@@ -367,6 +367,8 @@ export default function ModelPage() {
                 .onUpdate((param) => {
                     vidParticle.psMat.uniforms.spreadProgress.value = param.progress
                     bgParticle.psMat.uniforms.prog.value = 1 - param.progress
+                    //set position z to progress
+                    bgParticle.particles.position.z = 2 * param.progress
                 })
                 .easing(TWEEN.Easing.Back.In)
                 .onStart(() => {
@@ -387,6 +389,8 @@ export default function ModelPage() {
                 .onUpdate((param) => {
                     vidParticle.psMat.uniforms.spreadProgress.value = param.progress
                     bgParticle.psMat.uniforms.prog.value = 1 - param.progress
+                    //set position z to progress
+                    bgParticle.particles.position.z = 2 * param.progress
                 })
                 .easing(TWEEN.Easing.Back.Out)
                 .onComplete(() => {
