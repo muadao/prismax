@@ -230,7 +230,11 @@ export default function ModelPage() {
 
         for (let i = 0; i < bgParticleConfig.num; i++) {
             const angle = Math.random() * 2 * Math.PI
-            let radius = Math.sqrt(Math.random()) * spawnRadius * 0.92
+            let radius = Math.sqrt(Math.random()) * spawnRadius
+
+            if (radius > spawnRadius * 0.9)
+                radius = spawnRadius * 0.9;
+
             //move a little to edge
             const x = radius * Math.cos(angle)
             const y = radius * Math.sin(angle)
@@ -264,6 +268,16 @@ export default function ModelPage() {
         particleScene.add(particles)
 
         bgParticle = { psMat, psGeo, originalVertices, sizes, particles }
+
+        particles.position.z = 3
+
+        const anim = setInterval(() => {
+            particles.position.z -= 0.05
+            if (particles.position.z <= 0) {
+                particles.position.z = 0
+                clearInterval(anim)
+            }
+        }, 10)
     }
 
     function updateVidParticles(timestamp) {
@@ -308,8 +322,8 @@ export default function ModelPage() {
             const noiseY = noise(sampleScalar * x + t * timeScalar, sampleScalar * y, 0) * moderatedAmplitude
             // const noiseZ = noise(sampleScalar * x, sampleScalar * y + t * timeScalar, sampleScalar * z) * moderatedAmplitude
 
-            vertices[i] = (10 - 9 * prog) * x + noiseX
-            vertices[i + 1] = (10 - 9 * prog) * y + noiseY
+            vertices[i] = x + noiseX
+            vertices[i + 1] = y + noiseY
             vertices[i + 2] = -0.1
         }
 
@@ -370,7 +384,11 @@ export default function ModelPage() {
                     vidParticle.psMat.uniforms.spreadProgress.value = param.progress
                     bgParticle.psMat.uniforms.prog.value = 1 - param.progress
                     //set position z to progress
-                    bgParticle.particles.position.z = 2 * param.progress
+                    let pro = param.progress;
+                    //limit 0 to 1
+                    if (pro < 0) pro = 0
+                    if (pro > 1) pro = 1
+                    bgParticle.particles.position.z = 2 * pro
                 })
                 .easing(TWEEN.Easing.Back.In)
                 .onStart(() => {
@@ -392,7 +410,11 @@ export default function ModelPage() {
                     vidParticle.psMat.uniforms.spreadProgress.value = param.progress
                     bgParticle.psMat.uniforms.prog.value = 1 - param.progress
                     //set position z to progress
-                    bgParticle.particles.position.z = 2 * param.progress
+                    let pro = param.progress;
+                    //limit 0 to 1
+                    if (pro < 0) pro = 0
+                    if (pro > 1) pro = 1
+                    bgParticle.particles.position.z = 2 * pro
                 })
                 .easing(TWEEN.Easing.Back.Out)
                 .onComplete(() => {
