@@ -270,13 +270,13 @@ export default function ModelPage() {
         bgParticle = { psMat, psGeo, originalVertices, sizes, particles }
 
         particles.position.z = 0
-        particles.scale.set(1.7, 1.7, 1.7);
+        particles.scale.set(1.8, 1.8, 1.8)
 
         let steplength = 0.05
         const anim = setInterval(() => {
             particles.position.z -= steplength
             steplength -= 0.0001
-            if (steplength < 0.01) steplength = 0.01
+            if (steplength < 0.005) steplength = 0.005
             if (particles.position.z <= -8) {
                 particles.position.z = -8
                 clearInterval(anim)
