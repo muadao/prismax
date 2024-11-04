@@ -270,12 +270,15 @@ export default function ModelPage() {
         bgParticle = { psMat, psGeo, originalVertices, sizes, particles }
 
         particles.position.z = 0
-        particles.scale.set(1.3, 1.3, 1.3)
+        particles.scale.set(1.7, 1.7, 1.7);
 
+        let steplength = 0.05
         const anim = setInterval(() => {
-            particles.position.z -= 0.05
-            if (particles.position.z <= -3) {
-                particles.position.z = -3
+            particles.position.z -= steplength
+            steplength -= 0.0001
+            if (steplength < 0.01) steplength = 0.01
+            if (particles.position.z <= -8) {
+                particles.position.z = -8
                 clearInterval(anim)
             }
         }, 10)
@@ -394,10 +397,10 @@ export default function ModelPage() {
                     //limit 0 to 1
                     if (pro < 0) pro = 0
                     if (pro > 1) pro = 1
-                    bgParticle.particles.position.z = 2 * pro - 3
+                    bgParticle.particles.position.z = 6 * pro - 8
                 })
                 .easing(TWEEN.Easing.Back.In)
-                .onStart(() => {
+                .onStart(() => { 
                     setText('')
 
                     setTimeout(() => {
@@ -418,7 +421,7 @@ export default function ModelPage() {
                     //limit 0 to 1
                     if (pro < 0) pro = 0
                     if (pro > 1) pro = 1
-                    bgParticle.particles.position.z = 2 * pro - 3
+                    bgParticle.particles.position.z = 6 * pro - 8
                 })
                 .easing(TWEEN.Easing.Back.Out)
                 .onComplete(() => {
