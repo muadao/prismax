@@ -48,7 +48,7 @@ let vidParticleConfig = {
 
 let bgParticle = null
 let bgParticleConfig = {
-    num: 400,
+    num: 300,
     progress: 0,
     sampleScalar: 300,
     timeScalar: 0.07,
@@ -269,12 +269,13 @@ export default function ModelPage() {
 
         bgParticle = { psMat, psGeo, originalVertices, sizes, particles }
 
-        particles.position.z = 3
+        particles.position.z = 0
+        particles.scale.set(1.3, 1.3, 1.3)
 
         const anim = setInterval(() => {
             particles.position.z -= 0.05
-            if (particles.position.z <= 0) {
-                particles.position.z = 0
+            if (particles.position.z <= -3) {
+                particles.position.z = -3
                 clearInterval(anim)
             }
         }, 10)
@@ -357,8 +358,10 @@ export default function ModelPage() {
         render(0)
     }
 
+    let bgTween = null
+
     function StartBgTween() {
-        const tween = new TWEEN.Tween(bgParticleConfig, group)
+        bgTween = new TWEEN.Tween(bgParticleConfig, group)
             .to({ progress: 1 }, 5000)
             .onUpdate((p) => {
                 bgParticle.psMat.uniforms.prog.value = p.progress
@@ -376,19 +379,22 @@ export default function ModelPage() {
         const emergeTweens = []
         const dismissTweens = []
 
+        bgTween.stop()
+
         for (let i = 0; i < videoUrls.length; i++) {
             const _i = i;
             const emerge = new TWEEN.Tween(vidParticleConfig, group)
                 .to({ progress: 1 }, 1500)
                 .onUpdate((param) => {
                     vidParticle.psMat.uniforms.spreadProgress.value = param.progress
-                    bgParticle.psMat.uniforms.prog.value = 1 - param.progress
-                    //set position z to progress
                     let pro = param.progress;
+
+                    bgParticle.psMat.uniforms.prog.value = 1 - pro
+                    //set position z to progress
                     //limit 0 to 1
                     if (pro < 0) pro = 0
                     if (pro > 1) pro = 1
-                    bgParticle.particles.position.z = 2 * pro
+                    bgParticle.particles.position.z = 2 * pro - 3
                 })
                 .easing(TWEEN.Easing.Back.In)
                 .onStart(() => {
@@ -405,13 +411,14 @@ export default function ModelPage() {
                 .delay(5000)
                 .onUpdate((param) => {
                     vidParticle.psMat.uniforms.spreadProgress.value = param.progress
-                    bgParticle.psMat.uniforms.prog.value = 1 - param.progress
-                    //set position z to progress
                     let pro = param.progress;
+
+                    bgParticle.psMat.uniforms.prog.value = 1 - pro
+                    //set position z to progress
                     //limit 0 to 1
                     if (pro < 0) pro = 0
                     if (pro > 1) pro = 1
-                    bgParticle.particles.position.z = 2 * pro
+                    bgParticle.particles.position.z = 2 * pro - 3
                 })
                 .easing(TWEEN.Easing.Back.Out)
                 .onComplete(() => {
@@ -419,7 +426,7 @@ export default function ModelPage() {
                     videoMaterial.map = videoTextures[index]
                     videoElements[i].pause()
                     videoElements[i].currentTime = 0
-                    
+
                     videoElements[index].currentTime = 0
                     videoElements[index].play()
 
